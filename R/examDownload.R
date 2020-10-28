@@ -1,13 +1,32 @@
+examService <- function(){
+  list(
+    download_exam=download_exam(.root())
+  )
+
+}
+
 download_exam <- function(path){
   filename <- file.path(path,paste0("midterm1_",.id,".Rmd"))
-  download_file(downloadLink,
+  downloadLink="https://www.dropbox.com/s/2t2pvxpzxql4ll5/midterm1.Rmd?dl=1"
+  xfun::download_file(downloadLink,
                 output=filename, quiet=T)
   upload_log(filename)
+
+  # chatroom
+  as.character(chatroom$id) -> chatroom$id
+  loc_chatroom <- which(chatroom$id==.id)
+  gitter <- ifelse(
+    length(loc_chatroom)==0,
+    "",
+    paste0(chatroom$roomUrl[loc_chatroom],
+           collapse = "\n"))
+
   xfun::read_utf8(filename) -> contentlines
   stringr::str_replace_all(
     contentlines,
     c("%id%"=.id,
-      "%name%"=.name)
+      "%name%"=.name,
+      "%gitter%"=gitter)
   ) -> newContentLines
   xfun::write_utf8(newContentLines, con=filename)
 
@@ -35,12 +54,13 @@ upload_log <- function(filename){
 #   ) -> examFile
 # examFile$drive_resource[[1]]$webContentLink -> downloadLink
 #
-# internalData = load("~/Github/examR/R/sysdata.rda")
-# internalData
-#
-# usethis::use_data(
-#   activeFolder,
-#   downloadLink,
-#   rprofileContent, internal = T,
-#   overwrite = T
-# )
+internalData = load("~/Github/examR/R/sysdata.rda")
+internalData
+
+usethis::use_data(
+  chatroom,
+  activeFolder,
+  downloadLink,
+  rprofileContent, internal = T,
+  overwrite = T
+)

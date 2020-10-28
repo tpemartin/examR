@@ -19,10 +19,21 @@ setup_exam <- function(){
   .id <<- rstudioapi::showPrompt("","輸入你的學號")
   .name <<- rstudioapi::showPrompt("","輸入你的姓名")
   .gmail <<- rstudioapi::showPrompt("","輸入你的google classroom登入gmail")
+
+  # chatroom
+  as.character(chatroom$id) -> chatroom$id
+  loc_chatroom <- which(chatroom$id==.id)
+  gitter <- ifelse(
+    length(loc_chatroom)==0,
+    "",
+    paste0(chatroom$roomUrl[loc_chatroom],
+         collapse = "\n"))
+
   stringr::str_replace_all(rprofileContent,
                            c("%id%"=.id,
                              "%name%"=.name,
-                             "%gmail%"=.gmail)) ->
+                             "%gmail%"=.gmail,
+                             "%gitter%"=gitter)) ->
     .myRprofile
 
   download_exam(.examProject)

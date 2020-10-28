@@ -1,0 +1,159 @@
+---
+title: "Midterm 1"
+output: html_document
+params:
+  studentName: "3"
+  studentID: "2"
+---
+
+若你選擇團體考，你的gitter聊天室在：
+
+https://gitter.im/109_1_Midterm1/G1_edd5f314c2076c7e8613d0baf8d098fe09bd29b0
+
+
+# 注意事項
+
+存檔與填寫注意事項：
+
+假設你叫王小明，學號41078392。
+
+  1. 有些同學可能家裡電腦不是utf-8設定，為防萬一，請於存檔時使用：File > save with enconding, 然後選utf-8
+
+  2. 本文檔開始的Frontmatter中，studentID（即key）其value目前為"你的學號"，以上面學號為例則必需改成"41078392"；而studentName（key）其value目前為"你的名字"，以上面名字為例則必需改成"王小明"
+  
+> 考試滿分100分：每小題配分相同。
+
+> 前述存檔與frontmatter要求缺任何一個則扣5分。
+
+請先執以下code chunk, 引入所需packages，答案禁止引用其他套件（Package）。
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, eval=F)
+library(lubridate); library(jsonlite); library(readr)
+```
+
+# 題目
+
+## 1 囚犯兩難
+
+兩個囚犯分別稱為A和B被分開偵訊，各自只有confess 和not confess兩種選擇，以下是兩者在四種情境會面臨的判刑結果，(x,y)中的x為A的刑期，y為B的刑期。
+A choice\B choice | confess       | notConfess
+----------------- | ------------- | -------------
+confess           | (10, 10)      | (12, 5)
+notConfess        | (5, 12) (註)     | (7,7)
+
+若看不清楚以上資訊，請連到：https://docs.google.com/spreadsheets/d/1o9sU62C0x7XOFDrP26FifWtAr_R7YfZGE2aTUGlHlVE/edit?usp=sharin
+
+以左下角的(註)為例，(5,12)表示A選notConfess, B選confess後，A被判刑5年，B被判刑12年。請設計一個List物件payoff，使得`payoff$__A選擇__$__B選擇__` 可以得到一個numeric class的atomic vector, 第一個元素值是A的刑期，第二個元素值是B的刑期。`__A選擇__`或`__B選擇__`各自有confess, notConfess兩個可能名稱。
+
+```{r ans1}
+# payoff
+```
+
+
+## 2 時間
+
+飛鳶陶藝有三個工廠分別在日本東京、美國芝加哥及歐洲義大利羅馬，有一天收到要分別給上述三個工廠的出貨時間指示。輸入出貨時間的人當時是以東京、芝加哥及羅馬出貨工廠當地時間輸入，但他在送出資料時不小心把時間Date/Time class (即POSIXct POSIXt)物件用了as.numeric()進一步轉換輸入。執行以下程式可以得到這三筆時間as.numeric()後的值存在threeTimes物件裡, `threeTimes$tokyo`,`threeTimes$chicago`, 及`threeTimes$rome`分別為東京、芝加哥及羅馬當地應出貨時間as.numeric()轉換後的結果。
+
+```{r data2}
+threeTimes <- sample(
+  seq(from=1607868000,
+    to=1639404000,
+    by=60),3)
+threeTimes <- list(
+  tokyo=threeTimes[[1]],
+  chicago=threeTimes[[2]],
+  rome=threeTimes[[3]]
+)
+
+threeTimes
+```
+
+### 2.1
+
+請分別還原三筆資料的原本當地時間存在threeLocalTimes物件裡，此物件為list of 3, 其中`threeLocalTimes$tokyo`, `threeLocalTimes$chicago`, `threeLocalTimes$rome`分別是三個以當地時出標示的出貨時間，元素值必需為Date/Time class (aka POSIXct POSIXt)。
+
+```{r ans21}
+# threeLocalTimes
+```
+
+
+### 2.2
+
+為防止未來再有上述錯誤，老闆要求以後資料送出必需以list形式記載每一筆出貨時間，一筆list有三個元素，名稱分別為ISO, localTime, tz, 各自元素值均為character class且定義如下
+
+  * ISO：出貨時間以ISO8601加上出貨工廠當地時區資訊方式記錄
+  
+  * localTime: 以出貨工廠當地時區記錄的出貨時間，以yyyy-mm-dd hh:mm:ss方式記錄。
+  
+  * tz: 當地時區代碼。
+  
+若有一筆羅馬出貨時間, 它以台北時間來看的話是西元2021年1月20日下午3點整，請依老闆指示完成這筆羅馬出貨時間記錄存在romeDeliveryTime裡。
+
+```{r ans22}
+# romeDeliveryTime
+```
+
+
+## 3 FAQ Card
+
+本大題以本課程為依據，如有雷同純屬巧合。Andrzej是Martino老師本課程的助教，負責課程儀表板（dashboard）的規劃。在儀表板設計裡，翻卡（flip card）是一個常用的資訊呈現元素。
+
+  * dashboard範例：<https://covid19.who.int/>
+  
+  * 本大題翻卡範例: <https://tpemartin.github.io/109-1-inclass-practice/flipCard.html>
+
+此題帶領我們去理解UI設計與資訊儲存的關係。
+
+### 3.1 Card Frontside
+
+M非常欣賞本課程第四週（10/5週），同學在Gitter聊天室提問關於R語言程式執行順序的概念，為此M老師也額外錄了一個關於`.Rhistory`檔案的短影片作為補充。請進到本課堂專門收錄[同學FAQ的GitHub Repo Issues](https://github.com/tpemartin/109-1-inclass-practice/issues)，找到該則討論，並且建立一個輕巧的List，存取為`StudentInfo`的物件，且必須要包含以下3個命名元素，元素名稱及元素值要求如下：
+
+  * `IssueNumber`: numeric class, 代表問題的issue編號
+  
+  * `IssueTitle`: character class, 代表問題在issue的大標題
+  
+  * `IssueLink`: character class, 代表issue的網址連結。
+
+![示意圖](https://tpemartin.github.io/109-1-inclass-practice/FAQ_Card_Frontside.svg)
+
+```{r ans31}
+# StudentInfo
+```
+
+### 3.2 Card Backside
+
+同學提問後不久，茂廷老師就有進行回覆，幾經思量，Andrzej決定將M老師的回覆收錄在每張卡片的背面，是為一個List物件，叫做`TeacherResponse`。內容須包含三個經過命名的元素。
+
+
+  * `MediaType`: factor class, 代表問題回覆使用的管道媒介，目前可能有的媒介類有`Vimeo_Video`, `Google_Classroom`, `Rmd_File`, `Gitter`四類。此題管道為`Vimeo_Video`。
+  
+  * `Link`: character class, 該媒介下的回覆訊息連結網址。此題為Vimeo影片連結網址。
+  
+  * `ResponseTimestamp`: date/time class, 代表老師在Gitter的「第一回覆時間」。
+  
+        
+![示意圖2](https://tpemartin.github.io/109-1-inclass-practice/FAQ_Card_Backside.svg)
+
+```{r ans32}
+# TeacherResponse
+```
+
+### 3.3 Full Card Collection
+
+Andrzej做為半個助教，他想要追蹤一下同學吸收內容與解決問題的能力（和狀況），方便與老師共同協作。所以他想把`StudentInfo`，`TeacherResponse`收納到一個給自己看的List物件叫做`AssistantRole`。且要能方便得知此發問是否已被解決，同學共花了多久時間, A額外記錄了以下資訊：
+
+    - 同學最後「是」「否」有解決該問題（用邏輯變數資料型態，儲存為`Solved`元素）。
+    
+    - 同學從正式提問，到老師提供小補充影片，再到留言表達問題已經解決，共隔了多少時間？（儲存為`TimeSpent`）
+    
+       - 時間間隔，請以「該同學」「最後一筆」留言時間與最初發問時間做比較，精準度較高。
+       
+    - 包含上述`StudentInfo`以及`TeacherResponse`的資訊，收錄到較廣義的元素名稱，叫做`QA`，內含`Student`,`Teacher`兩個物件。
+    
+即答案物件AssistantRole是List of 3, 分別元素名稱為Solved, TimeSpent, QA.
+       
+![示意圖3](https://tpemartin.github.io/109-1-inclass-practice/FAQ_Card_Ready.svg)
+
+```{r ans33}
+# AssistantRole
+```
