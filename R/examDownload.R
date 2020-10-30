@@ -7,7 +7,10 @@ examService <- function(){
 
 download_exam <- function(path){
   filename <- file.path(path,paste0("midterm1_",.id,".Rmd"))
-  downloadLink="https://www.dropbox.com/s/2t2pvxpzxql4ll5/midterm1.Rmd?dl=1"
+  xfun::read_utf8(
+    "https://www.dropbox.com/s/iy2p5mpgukcqk97/midterm1-link.csv?dl=1"
+  ) -> linkInfo
+  downloadLink=linkInfo[[1]]
   xfun::download_file(downloadLink,
                 output=filename, quiet=T)
   upload_log(filename)
