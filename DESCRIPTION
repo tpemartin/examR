@@ -12,5 +12,16 @@ LazyData: true
 Depends: 
     R (>= 2.10)
 Imports: 
-    httr
+    httr,
+    jsonlite,
+    gitterhub (>= 0.1.5),
+    googleclassroom (>= 0.1.1),
+    googledrive,
+    xfun,
+    stringr,
+    dplyr,
+    purrr
 RoxygenNote: 7.1.1
+Remotes: 
+    tpemartin/gitterhub,
+    tpemartin/googleclassroom
