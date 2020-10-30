@@ -16,9 +16,26 @@ setup_exam <- function(){
     library(gitterhub)
   }
 
+  {
+   studentProfile <- exam_authentication(type="setup")
+  }
+
+
   .id <<- rstudioapi::showPrompt("","輸入你的學號")
   .name <<- rstudioapi::showPrompt("","輸入你的姓名")
-  .gmail <<- rstudioapi::showPrompt("","輸入你的google classroom登入gmail")
+  .gmail <- studentProfile$googleclassroom$emailAddress
+  # .gmail <<- rstudioapi::showPrompt("","輸入你的google classroom登入gmail")
+
+  require(googledrive)
+  destfile = file.path(tempdir(),paste0("login_setup_",.id,".log"))
+  xfun::write_utf8(
+    jsonlite::toJSON(
+      studentProfile, auto_unbox = T
+    ),
+    con=destfile
+  )
+
+  upload_googledrive(destfile)
 
   # chatroom
   as.character(chatroom$id) -> chatroom$id
