@@ -6,8 +6,11 @@ log_activity <- function(studentProfile,type,studentId){
   # 產生第一個setup log
   tempdir = tempdir()
   if(!exists(tempdir)) dir.create(tempdir, showWarnings = F)
-
-  destfile = file.path(tempdir,paste0("log_",logId,"_",type,"_",studentId,".log"))
+  destfile = tempfile(
+    paste0("log_",type,"_",studentId),
+    fileext=".log"
+  )
+  # destfile = file.path(tempdir,paste0("log_",logId,"_",type,"_",studentId,".log"))
 
   xfun::write_utf8(
     jsonlite::toJSON(
