@@ -32,8 +32,19 @@ setup_exam <- function(){
     )
 
   set_Renviron(studentProfile)
+  wrongMessage=""
+  flag_wrongId =T
+  count=0; maxcount=4
+  while(flag_wrongId && count < maxcount){
+    count=count+1
+    .id <<- rstudioapi::showPrompt("",
+                                   paste0(wrongMessage,"輸入你的學號"))
+    flag_wrongId <- stringr::str_detect(.id,"^[74](107|109|108|106)(61|73|74|76|83|72|82|81|79|78|77|84|86)[:digit:]{3}$", negate = T)
+    if(flag_wrongId) wrongMessage="學號輸入錯誤。"
+    if(count==4) stop("過多輸入錯誤。")
+  }
 
-  .id <<- rstudioapi::showPrompt("","輸入你的學號")
+
   .name <<- rstudioapi::showPrompt("","輸入你的姓名")
   .gmail <- studentProfile$googleclassroom$emailAddress
   # .gmail <<- rstudioapi::showPrompt("","輸入你的google classroom登入gmail")
