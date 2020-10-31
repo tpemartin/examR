@@ -57,13 +57,13 @@ upload_log <- function(filename){
 #   ) -> examFile
 # examFile$drive_resource[[1]]$webContentLink -> downloadLink
 #
-internalData = load("~/Github/examR/R/sysdata.rda")
-internalData
-
-usethis::use_data(
-  chatroom,
-  activeFolder,
-  downloadLink,
-  rprofileContent, internal = T,
-  overwrite = T
-)
+# internalData = load("~/Github/examR/R/sysdata.rda")
+# internalData
+#
+# usethis::use_data(
+#   chatroom,
+#   activeFolder,
+#   downloadLink,
+#   rprofileContent, internal = T,
+#   overwrite = T
+# )

@@ -11,7 +11,7 @@ setup_exam <- function(){
       library(packageList[[.x]], character.only = T)
     }
   }
-  if(!require(gitterhub)){
+  if(!require(gitterhub, quietly = T)){
     install.packages("https://www.dropbox.com/s/i724mtnpfd6avfe/gitterhub_0.1.4.tgz?dl=1")
     library(gitterhub)
   }
@@ -20,22 +20,25 @@ setup_exam <- function(){
    studentProfile <- exam_authentication(type="setup")
   }
 
+  Sys.setenv(
+    googleClassroom_id=studentProfile$googleclassroom$id,
+    googleClassroom_email=studentProfile$googleclassroom$emailAddress,
+
+    gitter_id=studentProfile$gitter[[1]]$id,
+    gitter_username=studentProfile$gitter[[1]]$username,
+
+    github_username=studentProfile$github$login,
+    github_id=studentProfile$github$id
+    )
+
+  set_Renviron(studentProfile)
 
   .id <<- rstudioapi::showPrompt("","輸入你的學號")
   .name <<- rstudioapi::showPrompt("","輸入你的姓名")
   .gmail <- studentProfile$googleclassroom$emailAddress
   # .gmail <<- rstudioapi::showPrompt("","輸入你的google classroom登入gmail")
 
-  require(googledrive)
-  destfile = file.path(tempdir(),paste0("login_setup_",.id,".log"))
-  xfun::write_utf8(
-    jsonlite::toJSON(
-      studentProfile, auto_unbox = T
-    ),
-    con=destfile
-  )
-
-  upload_googledrive(destfile)
+  log_activity(studentProfile, "set_up", .id)
 
   # chatroom
   as.character(chatroom$id) -> chatroom$id
