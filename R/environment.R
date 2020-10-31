@@ -23,7 +23,7 @@ set_Renviron <- function(studentProfile=NULL,idName=F){
       paste0("github_id=",studentProfile$github$id)
     ) -> envLines_studentProfile
   }
-  if(!is.null(idName)){
+  if(idName){
     c(
       paste0("school_id=",.id),
       paste0("name=",.name)

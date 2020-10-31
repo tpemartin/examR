@@ -19,7 +19,7 @@ setup_exam <- function(){
   # 考生身份驗證
   {
    studentProfile <- exam_authentication(type="setup")
-   set_Renviron(studentProfile)
+   set_Renviron(studentProfile, idName=F)
   }
 
   # Sys.setenv(
