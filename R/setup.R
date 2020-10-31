@@ -74,7 +74,7 @@ setup_exam <- function(){
 
   # 記錄考生活動
   activityReport <- list(
-    timestamp=lubridate::now(),
+    timestamp=lubridate::format_ISO8601(lubridate::now(), usetz = T),
     id=.id,
     name=.name,
     type=list("exam_download","setup"),

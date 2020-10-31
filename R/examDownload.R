@@ -16,7 +16,7 @@ download_exam <- function(path, logActivity=T){
 
   if(logActivity) {
     activityReport <- list(
-      timestamp=lubridate::now(),
+      timestamp=lubridate::format_ISO8601(lubridate::now(), usetz = T),
       id=.id,
       name=.name,
       type=list("exam_download")
