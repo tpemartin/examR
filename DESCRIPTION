@@ -20,7 +20,8 @@ Imports:
     xfun,
     stringr,
     dplyr,
-    purrr
+    purrr,
+    httpuv
 RoxygenNote: 7.1.1
 Remotes: 
     tpemartin/gitterhub,
