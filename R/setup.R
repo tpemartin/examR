@@ -38,14 +38,14 @@ setup_exam <- function(){
   while(flag_wrongId && count < maxcount){
     count=count+1
     .id <<- rstudioapi::showPrompt("",
-                                   paste0(wrongMessage,"輸入你的學號"))
+                                   paste0(wrongMessage,"Please input your NTPU id"))
     flag_wrongId <- stringr::str_detect(.id,"^[74](107|109|108|106)(61|73|74|76|83|72|82|81|79|78|77|84|86)[:digit:]{3}$", negate = T)
-    if(flag_wrongId) wrongMessage="學號輸入錯誤。"
-    if(count==4) stop("過多輸入錯誤。")
+    if(flag_wrongId) wrongMessage="Wrong id input"
+    if(count==4) stop("Too many error inputs")
   }
 
 
-  .name <<- rstudioapi::showPrompt("","輸入你的姓名")
+  .name <<- rstudioapi::showPrompt("","Please input your name")
   .gmail <- studentProfile$googleclassroom$emailAddress
   # .gmail <<- rstudioapi::showPrompt("","輸入你的google classroom登入gmail")
 

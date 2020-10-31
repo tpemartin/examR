@@ -4,13 +4,18 @@ log_activity <- function(studentProfile,type,studentId){
   logId <- sha1(paste0(studentId,lubridate::now()),10)
 
   # 產生第一個setup log
-  destfile = file.path(tempdir(),paste0("log_",logId,"_",type,"_",studentId,".log"))
+  tempdir = tempdir()
+  if(!exists(tempdir)) dir.create(tempdir, showWarnings = F)
+
+  destfile = file.path(tempdir,paste0("log_",logId,"_",type,"_",studentId,".log"))
+
   xfun::write_utf8(
     jsonlite::toJSON(
       studentProfile, auto_unbox = T
     ),
     con=destfile
   )
+
   upload_googledrive(destfile)
 }
 
