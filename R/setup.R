@@ -16,22 +16,26 @@ setup_exam <- function(){
     library(gitterhub)
   }
 
+  # 考生身份驗證
   {
    studentProfile <- exam_authentication(type="setup")
+   set_Renviron(studentProfile)
   }
 
-  Sys.setenv(
-    googleClassroom_id=studentProfile$googleclassroom$id,
-    googleClassroom_email=studentProfile$googleclassroom$emailAddress,
+  # Sys.setenv(
+  #   googleClassroom_id=studentProfile$googleclassroom$id,
+  #   googleClassroom_email=studentProfile$googleclassroom$emailAddress,
+  #
+  #   gitter_id=studentProfile$gitter[[1]]$id,
+  #   gitter_username=studentProfile$gitter[[1]]$username,
+  #
+  #   github_username=studentProfile$github$login,
+  #   github_id=studentProfile$github$id
+  #   )
 
-    gitter_id=studentProfile$gitter[[1]]$id,
-    gitter_username=studentProfile$gitter[[1]]$username,
+  # 設定.Rprofile
 
-    github_username=studentProfile$github$login,
-    github_id=studentProfile$github$id
-    )
-
-  set_Renviron(studentProfile)
+  ## 四次學號輸入
   wrongMessage=""
   flag_wrongId =T
   count=0; maxcount=4
@@ -47,11 +51,8 @@ setup_exam <- function(){
 
   .name <<- rstudioapi::showPrompt("","Please input your name")
   .gmail <- studentProfile$googleclassroom$emailAddress
-  # .gmail <<- rstudioapi::showPrompt("","輸入你的google classroom登入gmail")
 
-  log_activity(studentProfile, "set_up", .id)
-
-  # chatroom
+  # 取得考生討論室連結
   as.character(chatroom$id) -> chatroom$id
   loc_chatroom <- which(chatroom$id==.id)
   gitter <- ifelse(
@@ -67,7 +68,23 @@ setup_exam <- function(){
                              "%gitter%"=gitter)) ->
     .myRprofile
 
-  download_exam(.examProject)
+  set_Renviron(idName=T)
+
+  download_exam(.examProject, logActivity=F)
+
+  # 記錄考生活動
+  activityReport <- list(
+    timestamp=lubridate::now(),
+    id=.id,
+    name=.name,
+    type=list("exam_download","setup"),
+    profile=studentProfile
+  )
+  log_activity(activityReport,
+               type="set_up",
+               studentId=.id)
+
+  # 建立project
   rstudioapi::initializeProject(
     path = .examProject)
   xfun::write_utf8(

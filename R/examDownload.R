@@ -5,7 +5,7 @@ examService <- function(){
 
 }
 
-download_exam <- function(path){
+download_exam <- function(path, logActivity=T){
   filename <- file.path(path,paste0("midterm1_",.id,".Rmd"))
   xfun::read_utf8(
     "https://www.dropbox.com/s/iy2p5mpgukcqk97/midterm1-link.csv?dl=1"
@@ -13,7 +13,20 @@ download_exam <- function(path){
   downloadLink=linkInfo[[1]]
   xfun::download_file(downloadLink,
                 output=filename, quiet=T)
-  upload_log(filename)
+
+  if(logActivity) {
+    activityReport <- list(
+      timestamp=lubridate::now(),
+      id=.id,
+      name=.name,
+      type=list("exam_download")
+    )
+    log_activity(activityReport,
+                 type="set_up",
+                 studentId=.id)
+  }
+
+
 
   # chatroom
   as.character(chatroom$id) -> chatroom$id
