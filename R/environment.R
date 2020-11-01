@@ -7,7 +7,7 @@ set_Renviron <- function(studentProfile=NULL,idName=F, examDateTime=NULL){
   envLines_idName <-
     envLines_studentProfile <-
     envLines_old <-
-    envLines_examInfo <-
+    envLines_examDateTime <-
     c()
   if(file.exists(
     file.path(path_Renviron,".Renviron")
@@ -33,16 +33,16 @@ set_Renviron <- function(studentProfile=NULL,idName=F, examDateTime=NULL){
       paste0("name=",.name)
     ) -> envLines_idName
   }
-  if(!is.null(examInfo)){
+  if(!is.null(examDateTime)){
     c(
       paste0("examDateTime=", examDateTime)
-    ) -> envLines_examInfo
+    ) -> envLines_examDateTime
   }
   envLinesNew <- c(
     envLines_old,
     envLines_studentProfile,
     envLines_idName,
-    envLines_examInfo
+    envLines_examDateTime
   )
 
   xfun::write_utf8(
