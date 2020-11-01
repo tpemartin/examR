@@ -1,4 +1,4 @@
-set_Renviron <- function(studentProfile=NULL,idName=F,examInfo=NULL){
+set_Renviron <- function(studentProfile=NULL,idName=F, examDateTime=NULL){
   path_Renviron <- ifelse(
     Sys.getenv('R_USER')=="",
     Sys.getenv('HOME'),
