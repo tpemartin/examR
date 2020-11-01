@@ -11,6 +11,7 @@ download_exam <- function(path, logActivity=T){
     "https://www.dropbox.com/s/iy2p5mpgukcqk97/midterm1-link.csv?dl=1"
   ) -> linkInfo
   downloadLink=linkInfo[[1]]
+  examDateTime=linkInfo[[2]]
   xfun::download_file(downloadLink,
                 output=filename, quiet=T)
 
@@ -45,7 +46,7 @@ download_exam <- function(path, logActivity=T){
       "%gitter%"=gitter)
   ) -> newContentLines
   xfun::write_utf8(newContentLines, con=filename)
-
+  examDateTime
 }
 
 

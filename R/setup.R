@@ -19,21 +19,8 @@ setup_exam <- function(){
   # 考生身份驗證
   {
    studentProfile <- exam_authentication(type="setup")
-   set_Renviron(studentProfile, idName=F)
   }
 
-  # Sys.setenv(
-  #   googleClassroom_id=studentProfile$googleclassroom$id,
-  #   googleClassroom_email=studentProfile$googleclassroom$emailAddress,
-  #
-  #   gitter_id=studentProfile$gitter[[1]]$id,
-  #   gitter_username=studentProfile$gitter[[1]]$username,
-  #
-  #   github_username=studentProfile$github$login,
-  #   github_id=studentProfile$github$id
-  #   )
-
-  # 設定.Rprofile
 
   ## 四次學號輸入
   wrongMessage=""
@@ -52,25 +39,38 @@ setup_exam <- function(){
   .name <<- rstudioapi::showPrompt("","Please input your name")
   .gmail <- studentProfile$googleclassroom$emailAddress
 
-  # 取得考生討論室連結
-  as.character(chatroom$id) -> chatroom$id
-  loc_chatroom <- which(chatroom$id==.id)
-  gitter <- ifelse(
-    length(loc_chatroom)==0,
-    "",
-    paste0(chatroom$roomUrl[loc_chatroom],
-         collapse = "\n"))
+  # 設定考生環境、考卷內容
+  {
+    as.character(chatroom$id) -> chatroom$id
+    loc_chatroom <- which(chatroom$id==.id)
+    gitter <- ifelse(
+      length(loc_chatroom)==0,
+      "",
+      paste0(chatroom$roomUrl[loc_chatroom],
+             collapse = "\n"))
 
-  stringr::str_replace_all(rprofileContent,
-                           c("%id%"=.id,
-                             "%name%"=.name,
-                             "%gmail%"=.gmail,
-                             "%gitter%"=gitter)) ->
-    .myRprofile
+    stringr::str_replace_all(rprofileContent,
+                             c("%id%"=.id,
+                               "%name%"=.name,
+                               "%gmail%"=.gmail,
+                               "%gitter%"=gitter)) ->
+      .myRprofile
 
-  set_Renviron(idName=T)
+    # set_Renviron(idName=T)
 
-  download_exam(.examProject, logActivity=F)
+    examDateTime = download_exam(.examProject, logActivity=F)
+    examDateTime =
+      lubridate::with_tz(
+        lubridate::ymd_hms(
+          examDateTime, tz="Asia/Taipei"
+        ),
+        tzone='UTC'
+      )
+    examDateTime = lubridate::format_ISO8601(examDateTime)
+    set_Renviron(studentProfile, idName=T, examDateTime=examDateTime)
+
+  }
+
 
   # 記錄考生活動
   activityReport <- list(
@@ -83,6 +83,8 @@ setup_exam <- function(){
   log_activity(activityReport,
                type="set_up",
                studentId=.id)
+
+
 
   # 建立project
   rstudioapi::initializeProject(
