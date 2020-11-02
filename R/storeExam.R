@@ -8,8 +8,10 @@ storeExam <- function(){
   require(dplyr)
   require(stringr)
   filename <- paste0("midterm1_",Sys.getenv("id"))
-  list.files(path=.root()) %>%
-  str_which(paste0(filename,"\\.[Rr][Mm][Dd]")) -> examRmd
+  list.files(path=.root()) -> allfiles
+  allfiles %>%
+  str_which(paste0(filename,"\\.[Rr][Mm][Dd]")) -> which_examRmd
+  examRmd <- allfiles[[which_examRmd]]
   tempfilename <- tempfile(pattern=filename,fileext = "Rmd")
   file.link(
     from=examRmd,
