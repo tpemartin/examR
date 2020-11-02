@@ -42,7 +42,7 @@ download_exam <- function(path, logActivity=T){
   stringr::str_replace_all(
     contentlines,
     c("%id%"=.id,
-      "%name%"=.name,
+      # "%name%"=.name,
       "%gitter%"=gitter)
   ) -> newContentLines
   xfun::write_utf8(newContentLines, con=filename)

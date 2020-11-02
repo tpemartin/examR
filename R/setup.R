@@ -36,7 +36,7 @@ setup_exam <- function(){
   }
 
 
-  .name <<- rstudioapi::showPrompt("","Please input your name")
+  # .name <<- rstudioapi::showPrompt("","Please input your name")
   .gmail <- studentProfile$googleclassroom$emailAddress
 
   # 設定考生環境、考卷內容
@@ -51,7 +51,7 @@ setup_exam <- function(){
 
     stringr::str_replace_all(rprofileContent,
                              c("%id%"=.id,
-                               "%name%"=.name,
+                               # "%name%"=.name,
                                "%gmail%"=.gmail,
                                "%gitter%"=gitter)) ->
       .myRprofile
