@@ -20,17 +20,32 @@ log_activity <- function(studentProfile, type, studentId) {
     con = destfile
   )
 
-  upload_googledrive(destfile)
+  upload_googledrive(destfile) -> gd_response
+  invisible(gd_response)
 }
 
-log_download <- function(studentProfile,type,studentId){
-  download_exam(path=.root())
-  get_gitterGithubGoogleDriveUsageReport() -> usageReport
+# helpers -----------------------------------------------------------------
 
-  list(
-    usageReport,
+get_activityReportTemplate <- function(){
+  activityReport <- list(
+    timestamp=lubridate::format_ISO8601(lubridate::now(), usetz = T),
+    id=Sys.getenv("id"),
+    type=list()
   )
-
-  # setup should keep platform id already.
-
+ activityReport
 }
+
+
+# log_download <- function(studentProfile,type,studentId){
+#   download_exam(path=.root())
+#   get_gitterGithubGoogleDriveUsageReport() -> usageReport
+#
+#   list(
+#     usageReport,
+#   )
+#
+#   # setup should keep platform id already.
+#
+# }
+
+
