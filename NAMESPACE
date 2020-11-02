@@ -2,4 +2,5 @@
 
 export(getLastActivityTimeOfAllRooms)
 export(restoreExam)
+export(setup_exam)
 export(storeExam)

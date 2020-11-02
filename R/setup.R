@@ -1,3 +1,9 @@
+#' setup exam
+#'
+#' @return
+#' @export
+#'
+#' @examples none
 setup_exam <- function(){
   .examProject <- file.path(getwd(),"midterm1")
   if(!dir.exists(.examProject)) dir.create(.examProject)
