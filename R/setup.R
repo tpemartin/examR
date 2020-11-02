@@ -82,7 +82,7 @@ setup_exam <- function(){
   activityReport <- list(
     timestamp=lubridate::format_ISO8601(lubridate::now(), usetz = T),
     id=.id,
-    name=.name,
+    # name=.name,
     type=list("exam_download","setup"),
     profile=studentProfile
   )
