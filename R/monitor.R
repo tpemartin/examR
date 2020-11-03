@@ -21,6 +21,8 @@ log_activity <- function(studentProfile, type, studentId, logSysEnv=F) {
           sys_env=sys_env
         )
       )
+    studentProfile <-
+      append(studentProfile, get_ip())
   }
   xfun::write_utf8(
     jsonlite::toJSON(
@@ -43,6 +45,15 @@ get_activityReportTemplate <- function(){
     type=list()
   )
  activityReport
+}
+
+get_ip <- function(){
+  httr::GET("http://ip-api.com/json/")-> myIp
+  httr::content(myIp) -> ipContent
+  list(
+    ip=ipContent$query,
+    ipQuery=ipContent
+  )
 }
 
 
