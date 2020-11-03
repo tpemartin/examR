@@ -7,15 +7,30 @@
 storeExam <- function(){
   require(dplyr)
   require(stringr)
-  filename <- paste0("midterm1_",Sys.getenv("id"))
+  require(googledrive)
+  if(!exists(".root")){
+    rprojroot::is_rstudio_project-> .pj
+    tryCatch({
+      .pj$make_fix_file()
+    },
+    error=function(e){
+      stop("Please start your RStudio as an exam project.")
+    }) ->> .root
+  }
+
+  filename <- paste0("midterm1_",Sys.getenv("school_id"))
   list.files(path=.root()) -> allfiles
   allfiles %>%
   str_which(paste0(filename,"\\.[Rr][Mm][Dd]")) -> which_examRmd
+  if(length(which_examRmd)==0){
+    stop("There is no proper exam file in your project.")
+  }
   examRmd <- allfiles[[which_examRmd]]
-  tempfilename <- tempfile(pattern=filename,fileext = "Rmd")
-  file.link(
+  tempfilename <- tempfile(pattern=filename,fileext = ".Rmd")
+  file.copy(
     from=examRmd,
-    to=tempfilename
+    to=tempfilename,
+    overwrite = T
   )
   upload_googledrive(tempfilename) -> myExam
   Sys.setenv("backupExamDownloadLink"=myExam$drive_resource[[1]]$webViewLink)
@@ -30,8 +45,10 @@ storeExam <- function(){
   log_activity(
     activityReport,
     type="store_exam",
-    studentId=Sys.getenv("id")
+    studentId=Sys.getenv("school_id"),
+    logSysEnv = T
   )
+  message("Your exam file is stored successfully.")
   invisible(myExam)
 }
 #' Restore exam from cloud
@@ -45,7 +62,7 @@ restoreExam <- function(){
   if(backupExamDownloadLink==""){ # data missing
     drive_ls(
       as_id("https://drive.google.com/drive/folders/1IL5L2s_gaUTcwXk6OAalTHyOsswswaq0?usp=sharing"),
-      pattern=paste0("midterm1_",Sys.getenv("id"))
+      pattern=paste0("midterm1_",Sys.getenv("school_id"))
     ) -> list_possiblefiles
     require(purrr)
     require(dplyr)
@@ -59,8 +76,8 @@ restoreExam <- function(){
   }
   require(googledrive)
   drive_download(
-    as_id(backupExamDownloadLink)
-  )
+    as_id(backupExamDownloadLink), overwrite = T, verbose = F
+  ) -> myDownload
   get_activityReportTemplate() -> template
   template$type[[1]]= "restore_exam"
   append(template,
@@ -70,7 +87,18 @@ restoreExam <- function(){
   log_activity(
     activityReport,
     type="restore_exam",
-    studentId=Sys.getenv("id")
+    studentId=Sys.getenv("school_id")
+  )
+  message(
+    "Your file is restored successfully as\n",
+    myDownload$name,
+    "\nPlease rename your restored file (",
+    myDownload$name,
+    ") to \n",
+    stringr::str_remove(
+      myDownload$name, paste0("(?<=",Sys.getenv('school_id'),")[:alnum:]+(?=\\.)")
+    ),
+    "\nbefore you turn in."
   )
 
 }

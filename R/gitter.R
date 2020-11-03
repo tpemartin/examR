@@ -1,8 +1,3 @@
-library(gitterhub)
-library(dplyr)
-library(purrr)
-library(lubridate)
-
 #' Get last activity time of each room belong to the authenticated user
 #'
 #' @return A list of each room's last activity time

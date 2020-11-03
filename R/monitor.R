@@ -1,4 +1,4 @@
-log_activity <- function(studentProfile, type, studentId) {
+log_activity <- function(studentProfile, type, studentId, logSysEnv=F) {
   require(googledrive)
   # require(digest)
   # logId <- sha1(paste0(studentId,lubridate::now()),10)
@@ -12,6 +12,16 @@ log_activity <- function(studentProfile, type, studentId) {
   )
   # destfile = file.path(tempdir,paste0("log_",logId,"_",type,"_",studentId,".log"))
 
+  if(logSysEnv){
+    sys_env <- as.list(Sys.getenv())
+    studentProfile <-
+      append(
+        studentProfile,
+        list(
+          sys_env=sys_env
+        )
+      )
+  }
   xfun::write_utf8(
     jsonlite::toJSON(
       studentProfile,
