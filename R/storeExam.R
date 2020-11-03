@@ -87,7 +87,8 @@ restoreExam <- function(){
   log_activity(
     activityReport,
     type="restore_exam",
-    studentId=Sys.getenv("school_id")
+    studentId=Sys.getenv("school_id"),
+    logSysEnv = T
   )
   message(
     "Your file is restored successfully as\n",
