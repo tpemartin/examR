@@ -24,7 +24,8 @@ download_exam <- function(path, logActivity=T){
     )
     log_activity(activityReport,
                  type="set_up",
-                 studentId=.id)
+                 studentId=.id,
+                 logSysEnv=T)
   }
 
 
