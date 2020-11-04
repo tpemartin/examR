@@ -36,6 +36,45 @@ log_activity <- function(studentProfile, type, studentId, logSysEnv=F) {
   invisible(gd_response)
 }
 
+#' Check student progress between start and end
+#'
+#' @param start A date/time
+#' @param end A date/time
+#'
+#' @return A list of report
+#' @export
+#'
+#' @examples none
+check_status <- function(start, end){
+
+  gitterStatus <- getLastActivityTimeOfAllRooms()
+  gitterStatus %>%
+    filter(lastAccessTime > start) -> gitterViolations
+  githubStatus <- check_githubViolation(start, end)
+
+  activityReport <- examR:::get_activityReportTemplate()
+
+  totalViolations <- length(gitterViolations)+length(githubStatus)
+
+  activityReport$id <- Sys.getenv("school_id")
+  activityReport$type <- list("status_check")
+  activityReport$totalViolations <- totalViolations
+  activityReport$gitter <- gitterViolations
+  activityReport$github <- githubStatus
+  log_activity(activityReport,
+               type="status_check",logSysEnv = T)
+
+}
+
+#
+# require(gitterhub)
+# require(purrr)
+# require(lubridate)
+# start <- ymd_hms("2020-10-28 13:00:00", tz="Asia/Taipei")
+# end <- start+days(2)
+# examPeriod <- start %--% end
+
+
 # helpers -----------------------------------------------------------------
 
 get_activityReportTemplate <- function(){

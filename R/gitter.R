@@ -25,10 +25,9 @@ getLastActivityTimeOfAllRooms <- function(){
 
   rooms_lastAcitivityTime$lastAccessTime <-
     ymd_hms(rooms_lastAcitivityTime$lastAccessTime)
-  list(
-    checkTime=now(),
-    rooms_lastAcitivityTime=rooms_lastAcitivityTime
-  )
+
+  rooms_lastAcitivityTime=rooms_lastAcitivityTime
+
 }
 
 # roomActivity <- getRoomLastActivityTime()
