@@ -45,8 +45,10 @@ log_activity <- function(studentProfile, type, studentId, logSysEnv=F) {
 #' @export
 #'
 #' @examples none
-check_status <- function(start, end){
-
+check_status <- function(){
+  require(lubridate)
+  start=ymd_hms(Sys.getenv("start_time"),tz="Asia/Taipei")
+  end=start+hours(2)+minutes(15)
   gitterStatus <- getLastActivityTimeOfAllRooms()
   gitterStatus %>%
     filter(lastAccessTime > start) -> gitterViolations

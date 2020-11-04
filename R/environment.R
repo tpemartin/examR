@@ -28,9 +28,12 @@ set_Renviron <- function(studentProfile=NULL,idName=F, examDateTime=NULL){
     ) -> envLines_studentProfile
   }
   if(idName){
+    require(lubridate)
+    .start <<- format_ISO8601(now(), usetz = T)
     c(
       paste0("school_id=",.id),
-      paste0("name=",.name)
+      paste0("name=",.name),
+      paste0("start_time=", start)
     ) -> envLines_idName
   }
   if(!is.null(examDateTime)){
