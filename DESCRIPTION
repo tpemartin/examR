@@ -14,7 +14,7 @@ Depends:
 Imports: 
     httr,
     jsonlite,
-    gitterhub (>= 0.1.5),
+    gitterhub (>= 0.1.6),
     googleclassroom (>= 0.1.1),
     googledrive,
     xfun,

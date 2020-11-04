@@ -3,6 +3,7 @@
 export(check_githubViolation)
 export(check_status)
 export(getLastActivityTimeOfAllRooms)
+export(openToolkits)
 export(restoreExam)
 export(setup_exam)
 export(storeExam)

@@ -51,6 +51,21 @@ set_Renviron <- function(studentProfile=NULL,idName=F, examDateTime=NULL){
   )
 
 }
+
+#' 設定工具
+#'
+#' @return
+#' @export
+#'
+#' @examples none
+openToolkits <- function(){
+  attention()
+  utils::browseURL("https://tpemartin.github.io/NTPU-R-for-Data-Science/")
+  utils::browseURL("https://classroom.google.com")
+  utils::browseURL("https://gitter.im")
+  utils::browseURL("https://rstudio.com/resources/cheatsheets/")
+}
+
 attention <- function() {
   if (Sys.getenv("read_rule") == "") {
     rstudioapi::showDialog(
@@ -71,13 +86,14 @@ attention <- function() {
       message = "感謝你的配合，祝考試順利。"
     )
     Sys.setenv("read_rule" = "have read")
+    info <- list(
+      timestamp = lubridate::format_ISO8601(
+        lubridate::now(),
+        usetz=T
+      ),
+      id=Sys.getenv("school_id")
+    )
+    log_activity(info, "read_rule", Sys.getenv("school_id"), logSysEnv=T)
   }
-  info <- list(
-    timestamp = lubridate::format_ISO8601(
-      lubridate::now(),
-      usetz=T
-    ),
-    id=Sys.getenv("school_id")
-  )
-  log_activity(info, "read_rule", Sys.getenv("school_id"), logSysEnv=T)
+
 }
