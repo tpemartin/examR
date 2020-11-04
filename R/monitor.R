@@ -49,7 +49,7 @@ check_status <- function(){
   require(lubridate)
   start=ymd_hms(Sys.getenv("start_time"),tz="Asia/Taipei")
   end=start+hours(2)+minutes(15)
-  gitterStatus <- getLastActivityTimeOfAllRooms()
+  gitterStatus <- examR:::getLastActivityTimeOfAllRooms()
   gitterStatus %>%
     filter(lastAccessTime > start) -> gitterViolations
   githubStatus <- check_githubViolation(start, end)
