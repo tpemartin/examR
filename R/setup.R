@@ -42,7 +42,7 @@ setup_exam <- function(){
       flag_wrongId=T
     } else {
       flag_wrongId=F
-      Sys.setend("name"=idNameTable$name[[whichIsMe]])
+      Sys.setenv("name"=idNameTable$name[[whichIsMe]])
       .name=idNameTable$name[[whichIsMe]]
     }
     if(flag_wrongId) wrongMessage="Wrong id input"
