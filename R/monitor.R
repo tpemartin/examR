@@ -64,7 +64,9 @@ check_status <- function(){
   activityReport$gitter <- gitterViolations
   activityReport$github <- githubStatus
   log_activity(activityReport,
-               type="status_check",logSysEnv = T)
+               type="status_check",
+               Sys.getenv("school_id"),
+               logSysEnv = T)
 
 }
 
