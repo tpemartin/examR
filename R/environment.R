@@ -33,7 +33,7 @@ set_Renviron <- function(studentProfile=NULL,idName=F, examDateTime=NULL){
     c(
       paste0("school_id=",.id),
       paste0("name=",.name),
-      paste0("start_time=", start)
+      paste0("start_time=", as.character(.start))
     ) -> envLines_idName
   }
   if(!is.null(examDateTime)){
