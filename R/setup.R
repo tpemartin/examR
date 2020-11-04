@@ -37,9 +37,18 @@ setup_exam <- function(){
     .id <<- rstudioapi::showPrompt("",
                                    paste0(wrongMessage,"Please input your NTPU id"))
     flag_wrongId <- stringr::str_detect(.id,"^[74](107|109|108|106)(61|73|74|76|83|72|82|81|79|78|77|84|86)[:digit:]{3}$", negate = T)
+    whichIsMe <- which(idNameTable$id==.id)
+    if(length(whichIsMe)==0){
+      flag_wrongId=T
+    } else {
+      flag_wrongId=F
+      Sys.setend("name"=idNameTable$name[[whichIsMe]])
+      .name=idNameTable$name[[whichIsMe]]
+    }
     if(flag_wrongId) wrongMessage="Wrong id input"
     if(count==4) stop("Too many error inputs")
   }
+
 
 
   # .name <<- rstudioapi::showPrompt("","Please input your name")
@@ -57,7 +66,7 @@ setup_exam <- function(){
 
     stringr::str_replace_all(rprofileContent,
                              c("%id%"=.id,
-                               # "%name%"=.name,
+                               "%name%"=.name,
                                "%gmail%"=.gmail,
                                "%gitter%"=gitter)) ->
       .myRprofile
@@ -82,7 +91,7 @@ setup_exam <- function(){
   activityReport <- list(
     timestamp=lubridate::format_ISO8601(lubridate::now(), usetz = T),
     id=.id,
-    # name=.name,
+    name=.name,
     type=list("exam_download","setup"),
     profile=studentProfile
   )
