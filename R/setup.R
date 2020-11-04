@@ -43,7 +43,7 @@ setup_exam <- function(){
     } else {
       flag_wrongId=F
       Sys.setenv("name"=idNameTable$name[[whichIsMe]])
-      .name=idNameTable$name[[whichIsMe]]
+      .name <<- idNameTable$name[[whichIsMe]]
     }
     if(flag_wrongId) wrongMessage="Wrong id input"
     if(count==4) stop("Too many error inputs")
