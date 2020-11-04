@@ -52,7 +52,7 @@ check_status <- function(start, end){
     filter(lastAccessTime > start) -> gitterViolations
   githubStatus <- check_githubViolation(start, end)
 
-  activityReport <- examR:::get_activityReportTemplate()
+  activityReport <- get_activityReportTemplate()
 
   totalViolations <- length(gitterViolations)+length(githubStatus)
 
