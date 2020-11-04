@@ -51,7 +51,7 @@ check_status <- function(){
   end=start+hours(2)+minutes(15)
   gitterStatus <- examR:::getLastActivityTimeOfAllRooms()
   gitterStatus %>%
-    filter(lastAccessTime > start) -> gitterViolations
+    dplyr::filter(lastAccessTime > start) -> gitterViolations
   githubStatus <- check_githubViolation(start, end)
 
   activityReport <- get_activityReportTemplate()
