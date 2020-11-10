@@ -20,8 +20,8 @@ set_Renviron <- function(studentProfile=NULL,idName=F, examDateTime=NULL){
       paste0("googleClassroom_id=",studentProfile$googleclassroom$id),
       paste0("googleClassroom_email=",studentProfile$googleclassroom$emailAddress),
 
-      paste0("gitter_id=",studentProfile$gitter[[1]]$id),
-      paste0("gitter_username=",studentProfile$gitter[[1]]$username),
+      # paste0("gitter_id=",studentProfile$gitter[[1]]$id),
+      # paste0("gitter_username=",studentProfile$gitter[[1]]$username),
 
       paste0("github_username=",studentProfile$github$login),
       paste0("github_id=",studentProfile$github$id)

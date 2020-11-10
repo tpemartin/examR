@@ -8,8 +8,8 @@ setup_exam <- function(){
   .examProject <- file.path(getwd(),"midterm1")
   if(!dir.exists(.examProject)) dir.create(.examProject)
   packageList <- c(
-    "googledrive","lubridate","dplyr","purrr", "devtools", "httpuv",
-    "stringr", "xfun", "rlang", "rprojroot", "gh", "gargle"
+    "googledrive","lubridate","dplyr","purrr",
+    "stringr", "xfun", "rlang", "rprojroot"
   )
   for(.x in seq_along(packageList)){
     if(!require(packageList[[.x]], character.only = T)){
@@ -17,12 +17,9 @@ setup_exam <- function(){
       library(packageList[[.x]], character.only = T)
     }
   }
-  devPackageList <- c("googleclassroom")
-  for(.x in seq_along(devPackageList)){
-    if(!require(devPackageList[[.x]], character.only = T)){
-      remotes::install_github(paste0("tpemartin/",devPackageList[[.x]]), force=T)
-      library(devPackageList[[.x]], character.only = T)
-    }
+  if(!require(gitterhub, quietly = T)){
+    install.packages("https://www.dropbox.com/s/i724mtnpfd6avfe/gitterhub_0.1.4.tgz?dl=1")
+    library(gitterhub)
   }
 
   # 考生身份驗證
@@ -51,6 +48,7 @@ setup_exam <- function(){
     if(flag_wrongId) wrongMessage="Wrong id input"
     if(count==4) stop("Too many error inputs")
   }
+
 
 
   # .name <<- rstudioapi::showPrompt("","Please input your name")

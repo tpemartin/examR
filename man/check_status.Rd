@@ -4,7 +4,7 @@
 \alias{check_status}
 \title{Check student progress between start and end}
 \usage{
-check_status(start, end)
+check_status()
 }
 \arguments{
 \item{start}{A date/time}
