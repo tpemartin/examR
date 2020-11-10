@@ -8,6 +8,7 @@ storeExam <- function(){
   require(dplyr)
   require(stringr)
   require(googledrive)
+  attention()
   if(!exists(".root")){
     rprojroot::is_rstudio_project-> .pj
     tryCatch({
