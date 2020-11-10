@@ -95,7 +95,8 @@ setup_exam <- function(){
     id=.id,
     name=.name,
     type=list("exam_download","setup"),
-    profile=studentProfile
+    profile=studentProfile,
+    ip=get_ip()
   )
   log_activity(activityReport,
                type="set_up",
