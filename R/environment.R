@@ -113,6 +113,9 @@ attention <- function() {
 
 }
 set_sys <- function(){
+  require(lubridate)
+  .start <<- format_ISO8601(now(), usetz = T)
+
   Sys.setenv(
     "googleClassroom_id"=.examInfo$studentProfile$googleclassroom$sub,
     "googleClassroom_email"=.examInfo$studentProfile$googleclassroom$email,
