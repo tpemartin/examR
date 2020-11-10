@@ -59,6 +59,7 @@ storeExam <- function(){
 #'
 #' @examples none
 restoreExam <- function(){
+  attention()
   backupExamDownloadLink=Sys.getenv('backupExamDownloadLink')
   if(backupExamDownloadLink==""){ # data missing
     drive_ls(
