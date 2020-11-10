@@ -79,8 +79,9 @@ attention <- function() {
   load(
     file.path(Sys.getenv("HOME"),
               "examInfo.Rdata"
-              )
+              ), envir = .GlobalEnv
   )
+  set_sys()
   if (Sys.getenv("read_rule") == "") {
     rstudioapi::showDialog(
       title = "請留意!!!",
@@ -110,4 +111,15 @@ attention <- function() {
     log_activity(info, "read_rule", Sys.getenv("school_id"), logSysEnv=T)
   }
 
+}
+set_sys <- function(){
+  Sys.setenv(
+    "googleClassroom_id"=.examInfo$studentProfile$googleclassroom$sub,
+    "googleClassroom_email"=.examInfo$studentProfile$googleclassroom$email,
+    "github_username"=.examInfo$studentProfile$github$login,
+    "github_id"=.examInfo$studentProfile$github$id,
+    "school_id"=.id,
+    "name"=.name,
+    "start_time"=as.character(.start)
+  )
 }
