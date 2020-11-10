@@ -69,7 +69,18 @@ openToolkits <- function(){
   utils::browseURL("https://rstudio.com/resources/cheatsheets/")
 }
 
+#' Announcement and setup final step
+#'
+#' @return
+#' @export
+#'
+#' @examples none
 attention <- function() {
+  load(
+    file.path(Sys.getenv("HOME"),
+              "examInfo.Rdata"
+              )
+  )
   if (Sys.getenv("read_rule") == "") {
     rstudioapi::showDialog(
       title = "請留意!!!",
