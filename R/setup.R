@@ -90,7 +90,7 @@ setup_exam <- function(){
     )
     save(
       .examInfo,
-      file.path(
+      file=file.path(
         Sys.getenv("HOME"), "examInfo.Rdata"
       )
     )
