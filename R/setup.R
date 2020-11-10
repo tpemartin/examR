@@ -84,7 +84,17 @@ setup_exam <- function(){
         tzone='UTC'
       )
     examDateTime = lubridate::format_ISO8601(examDateTime)
-    set_Renviron(studentProfile, idName=T, examDateTime=examDateTime)
+    .examInfo <- list(
+      examDateTime=examDateTime,
+      studentProfile=studentProfile
+    )
+    save(
+      .examInfo,
+      file.path(
+        Sys.getenv("HOME"), "examInfo.Rdata"
+      )
+    )
+    # set_Renviron(studentProfile, idName=T, examDateTime=examDateTime)
 
   }
 
