@@ -122,7 +122,6 @@ set_sys <- function(){
     "github_username"=.examInfo$studentProfile$github$login,
     "github_id"=.examInfo$studentProfile$github$id,
     "school_id"=.id,
-    "name"=.name,
     "start_time"=as.character(.start)
   )
 }
